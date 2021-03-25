@@ -11,16 +11,28 @@ type fetchParams = {
   headers
 }
 
+
+type predictionType = {
+  "probability": float,
+  "tagName": string
+}
+
+type apiResponse = {
+  "predictions": array<predictionType>
+}
+
+type processor<'a> = (Js.Promise.t<'a>, apiResponse => ()) => ()
+
 @bs.scope("Math") @bs.val external round: float => float = "round"
 @bs.scope("URL") @bs.val external createObjectUrl: {..} => string = "createObjectURL"
-@bs.val external fetch: (string, fetchParams) => Js.Promise.t<'a> = "fetch"
+@bs.val external fetch: (string, fetchParams) => Js.Promise.t<{..}> = "fetch"
 @bs.val external alert: (string) => () = "alert"
 
 let url = "https://trainedcorgiorbread.cognitiveservices.azure.com/customvision/v3.0/Prediction/bf9fe12a-3250-455a-9394-e0663e408f07/classify/iterations/Iteration1/image"
 let key = "b33287da19da4498b77e4b93e4411480"
 let contentType = "application/octet-stream"
 
-let processResponse = %raw(`
+let processResponse: processor<apiResponse> = %raw(`
   async function(response, process) {
     try {
       const responseValue = await response
@@ -32,7 +44,7 @@ let processResponse = %raw(`
   }
 `)
 
-let displayPrediction = (prediction: {..}) => {
+let displayPrediction = (prediction: predictionType) => {
   let probability = prediction["probability"]
   let tagName = prediction["tagName"]
   alert(`${Belt.Float.toString(round(probability *. 10000.0) /. 100.0)}% sure it's a ${tagName}`)  
