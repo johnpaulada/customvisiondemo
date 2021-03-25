@@ -1,0 +1,9 @@
+.DS_Store
+/node_modules/
+/lib/
+/build/
+src/*.js
+.bsb.lock
+.merlin
+snowpack.crt
+snowpack.key

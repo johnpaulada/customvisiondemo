@@ -1,0 +1,28 @@
+{
+  "name": "enye",
+  "version": "0.0.1",
+  "scripts": {
+    "clean": "bsb -clean-world",
+    "start:re": "bsb -make-world -w",
+    "start": "snowpack dev",
+    "start:secure": "snowpack dev --secure",
+    "build": "./scripts/build.sh",
+    "gen-cert": "./scripts/generate-certificate.sh"
+  },
+  "keywords": [
+    "rescript",
+    "enye"
+  ],
+  "author": "",
+  "license": "MIT",
+  "devDependencies": {
+    "bs-platform": "*",
+    "snowpack": "^3.0.11"
+  },
+  "dependencies": {
+    "@rescript/react": "^0.10.1",
+    "bs-css-emotion": "^2.3.0",
+    "react": "^17.0.1",
+    "react-dom": "^17.0.1"
+  }
+}
